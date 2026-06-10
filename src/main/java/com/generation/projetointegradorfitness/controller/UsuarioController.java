@@ -3,6 +3,7 @@ package com.generation.projetointegradorfitness.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.generation.projetointegradorfitness.model.Usuario;
 import com.generation.projetointegradorfitness.model.UsuarioLogin;
-
+import com.generation.projetointegradorfitness.service.AvaliacaoService;
 
 import jakarta.validation.Valid;
 
@@ -26,6 +27,9 @@ public class UsuarioController {
 	
 	//@Autowired
 	//private UsuarioService usuarioService;
+	
+	@Autowired
+	private AvaliacaoService avaliacaoService;
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<Usuario>> getAll(){
@@ -53,5 +57,15 @@ public class UsuarioController {
 				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 	
-	
+	@PostMapping("/imc")
+	public ResponseEntity<Usuario> calcular(@Valid @RequestBody Usuario usuario){
+		Optional<Usuario> usuarioAtualizado = avaliacaoService.imcUsuario(usuario);
+		
+		if(usuarioAtualizado.isPresent()) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(usuarioAtualizado.get());
+		}
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	}
 }
+
