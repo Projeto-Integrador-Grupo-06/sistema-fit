@@ -1,59 +1,37 @@
 package com.generation.projetointegradorfitness.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
-
-
 @Entity
-@Table (name = "tb_usuarios")
-public class Usuario {
+@Table(name = "tb_categoria")
+public class Categoria {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotBlank(message = "O atributo nome é obrigatório!")
-	@Size(min = 5, max = 100, message = "O atributo nome deve ter no mínimo 05 e no máximo 100 caracteres.")
+
+	@NotBlank(message = "O atributo Nome é obrigatório!")
+	@Size(max = 100, message = "O nome deve conter até 100 caracteres!")
 	private String nome;
 	
-	@NotBlank(message = "O atributo email é obrigatório!")
-	@Email(message = "O atributo usuário deve ter um email válido!")
-	private String usuario;
+	@NotBlank(message = "O atributo Descrição é obrigatório!")
+	@Size(min = 10, max = 500, message = "A Descrição deve conter entre 10 e 500 caracteres!")
+	private String descricao;
 	
-	@NotBlank(message = "O atributo senha é obrigatório!")
-	@Size(min = 8, message = "O atributo senha deve ter no mínimo 08 caracteres.")
-	private String senha;
-	
-	@Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
-	private String foto;
-	
-	public List<Alimentacao> getAlimentos() {
-		return alimentos;
-	}
-
-	public void setAlimentos(List<Alimentacao> alimentos) {
-		this.alimentos = alimentos;
-	}
-
-	@OneToMany(mappedBy = "usuario")
-	@JsonIgnoreProperties("usuario")
+	@OneToMany(mappedBy = "categoria")
+	@JsonIgnoreProperties("categoria")
 	private List<Alimentacao> alimentos;
-	
-	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
-	//@JsonIgnoreProperties(value = "usuario", allowSetters = true)
-	//private List<Treino> treino;
 
 	public Long getId() {
 		return id;
@@ -71,30 +49,19 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public String getUsuario() {
-		return usuario;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
-	public String getSenha() {
-		return senha;
+	public List<Alimentacao> getAlimentos() {
+		return alimentos;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setAlimentos(List<Alimentacao> alimentos) {
+		this.alimentos = alimentos;
 	}
-
-	public String getFoto() {
-		return foto;
-	}
-
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
-	
-	
-	
 }
