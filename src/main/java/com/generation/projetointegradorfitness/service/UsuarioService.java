@@ -1,16 +1,17 @@
 package com.generation.projetointegradorfitness.service;
-
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken; 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import com.generation.projetointegradorfitness.model.Usuario;
 import com.generation.projetointegradorfitness.model.UsuarioLogin;
 import com.generation.projetointegradorfitness.repository.UsuarioRepository;
+import com.generation.projetointegradorfitness.security.JwtService;
 
 @Service
 public class UsuarioService {
@@ -27,11 +28,11 @@ public class UsuarioService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	public List<Usuario> gettAll(){
+	public List<Usuario> getAll(){
 		return usuarioRepository.findAll();
 	}
 	
-	public Optional <Usuario> getById(Long id){
+	public Optional<Usuario> getById(Long id){
 		return usuarioRepository.findById(id);
 	}
 	
@@ -69,43 +70,35 @@ public class UsuarioService {
 		UsuarioLogin login = usuarioLogin.get();
 		
 		try {
-			 
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(login.getUsuario(), login.getSenha()));
-
 			return usuarioRepository.findByUsuario(login.getUsuario())
 				.map(usuario -> construirRespostaLogin(login, usuario));
-
 		} catch (Exception e) {
-
 			return Optional.empty();
 		}
 	}
 
 	private UsuarioLogin construirRespostaLogin(UsuarioLogin usuarioLogin, Usuario usuario) {
-		
 		usuarioLogin.setId(usuario.getId());
 		usuarioLogin.setNome(usuario.getNome());
 		usuarioLogin.setFoto(usuario.getFoto());
 		usuarioLogin.setSenha("");
 		usuarioLogin.setToken(gerarToken(usuario.getUsuario()));
 		return usuarioLogin;
-		
 	}
 
 	private String gerarToken(String usuario) {
 		return "Bearer " + jwtService.generateToken(usuario);
 	}
 	
-	public String calcularImc (double peso, double altura, Long id) {
-		double imc = peso / (altura*altura);
+	public String calcularImc(double peso, double altura, Long id) {
+		double imc = peso / (altura * altura);
 		
 		if (imc <= 18.5) {
 			return "Baixo Peso";
-					
 		} else if (imc > 18.5 && imc <= 24.9) {
 			return "Peso normal";
-		
 		} else if (imc >= 25 && imc <= 29.9) {
 			return "Sobrepeso";
 		} else if (imc >= 30 && imc <= 39.9) {
@@ -115,17 +108,14 @@ public class UsuarioService {
 		}	
 	}
 	
-	public Optional<Usuario> imcUsuario (Usuario usuario){
+	public Optional<Usuario> imcUsuario(Usuario usuario){
 		if (!usuarioRepository.findById(usuario.getId()).isPresent()) {
 			return Optional.empty();
 		}
 		
 		String resultado = calcularImc(usuario.getPeso(), usuario.getAltura(), usuario.getId());
 		usuario.setImc(resultado);
-	
 		
 		return Optional.of(usuarioRepository.save(usuario));
 	}
-		
-	}
-
+}
