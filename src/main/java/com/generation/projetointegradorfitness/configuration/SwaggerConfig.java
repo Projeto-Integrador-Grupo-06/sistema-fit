@@ -20,7 +20,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 public class SwaggerConfig {
 
 	@Bean
-	OpenAPI springBlogPessoalOpenAPI() {
+	OpenAPI springSistemaFitOpenAPI() {
 		return new OpenAPI()
 				.info(new Info().title("Projeto Integrador Fitness").description("Projeto Integrador Sistema Fitness")
 						.version("v0.0.1")
