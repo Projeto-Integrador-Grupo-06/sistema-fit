@@ -13,12 +13,12 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-@Entity // erá utilizada para gerar uma tabela no Banco de dados da aplicação
+@Entity
 @Table(name = "tb_categoria")
 public class Categoria {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // gera IDs automaticamente
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotBlank(message = "O atributo Nome é obrigatório!")
@@ -30,9 +30,8 @@ public class Categoria {
 	private String descricao;
 	
 	@OneToMany(mappedBy = "categoria")
-    @JsonIgnoreProperties("categoria")
-    private List<Alimentacao>alimentos;
-	
+	@JsonIgnoreProperties("categoria")
+	private List<Alimentacao> alimentos;
 
 	public Long getId() {
 		return id;
@@ -57,7 +56,12 @@ public class Categoria {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	
-	
+
+	public List<Alimentacao> getAlimentos() {
+		return alimentos;
+	}
+
+	public void setAlimentos(List<Alimentacao> alimentos) {
+		this.alimentos = alimentos;
+	}
 }
