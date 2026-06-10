@@ -57,6 +57,16 @@ public class Categoria {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+
+	public List<Alimentacao> getAlimentos() {
+		return alimentos;
+	}
+
+	public void setAlimentos(List<Alimentacao> alimentos) {
+		this.alimentos = alimentos;
+	}
+	
+	
 	
 	
 	
