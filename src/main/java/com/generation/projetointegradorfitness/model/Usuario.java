@@ -14,6 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -39,17 +40,17 @@ public class Usuario {
 	@Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
 	private String foto;
 	
-	@NotBlank(message = "O atributo altura é obrigatório!")
-	private double altura;
+	@NotNull(message = "O atributo altura é obrigatório!")
+	private Double altura;
 	
-	@NotBlank(message = "O atributo peso é obrigatório!")
-	private double peso;
+	@NotNull(message = "O atributo peso é obrigatório!")
+	private Double peso;
 	
 	private String imc;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties(value = "usuario", allowSetters = true)
-	private List<Categoria> categoria;
+	@JsonIgnoreProperties(value = "usuario")
+	private List<Alimentos> alimentos;
 
 	public Long getId() {
 		return id;
