@@ -13,6 +13,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
+
+
 @Entity
 @Table (name = "tb_usuarios")
 public class Usuario {
@@ -35,6 +38,18 @@ public class Usuario {
 	
 	@Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
 	private String foto;
+	
+	public List<Alimentacao> getAlimentos() {
+		return alimentos;
+	}
+
+	public void setAlimentos(List<Alimentacao> alimentos) {
+		this.alimentos = alimentos;
+	}
+
+	@OneToMany(mappedBy = "usuario")
+	@JsonIgnoreProperties("usuario")
+	private List<Alimentacao> alimentos;
 	
 	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	//@JsonIgnoreProperties(value = "usuario", allowSetters = true)

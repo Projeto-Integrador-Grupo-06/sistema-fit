@@ -7,6 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.OneToMany;
 
 @Entity // erá utilizada para gerar uma tabela no Banco de dados da aplicação
 @Table(name = "tb_categoria")
@@ -24,7 +27,17 @@ public class Categoria {
 	@Size(min = 10, max = 500, message = "A execução deve conter entre 10 e 500 caracteres!")
 	private String descricao;
 	
-	
+	@OneToMany(mappedBy = "categoria")
+	@JsonIgnoreProperties("categoria")
+	private List<Alimentacao> alimentos;
+
+	public List<Alimentacao> getAlimentos() {
+		return alimentos;
+	}
+
+	public void setAlimentos(List<Alimentacao> alimentos) {
+		this.alimentos = alimentos;
+	}
 
 	public Long getId() {
 		return id;
