@@ -115,6 +115,14 @@ public class Usuario {
 	public void setImc(String imc) {
 		this.imc = imc;
 	}
+
+	public List<Alimentos> getAlimentos() {
+		return alimentos;
+	}
+
+	public void setAlimentos(List<Alimentos> alimentos) {
+		this.alimentos = alimentos;
+	}
 	
 	
 	
