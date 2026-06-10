@@ -1,7 +1,10 @@
 package com.generation.projetointegradorfitness.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -36,9 +39,17 @@ public class Usuario {
 	@Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
 	private String foto;
 	
-	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
-	//@JsonIgnoreProperties(value = "usuario", allowSetters = true)
-	//private List<Treino> treino;
+	@NotBlank(message = "O atributo altura é obrigatório!")
+	private double altura;
+	
+	@NotBlank(message = "O atributo peso é obrigatório!")
+	private double peso;
+	
+	private String imc;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties(value = "usuario", allowSetters = true)
+	private List<Categoria> categoria;
 
 	public Long getId() {
 		return id;
@@ -78,6 +89,30 @@ public class Usuario {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+	
+	public double getAltura() {
+		return altura;
+	}
+
+	public void setAltura(double altura) {
+		this.altura = altura;
+	}
+
+	public double getPeso() {
+		return peso;
+	}
+
+	public void setPeso(double peso) {
+		this.peso = peso;
+	}
+
+	public String getImc() {
+		return imc;
+	}
+
+	public void setImc(String imc) {
+		this.imc = imc;
 	}
 	
 	
