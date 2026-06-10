@@ -1,37 +1,26 @@
 package com.generation.projetointegradorfitness.model;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_categoria")
-public class Categoria {
+@Table(name = "tb_usuario")
+public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank(message = "O atributo Nome é obrigatório!")
-	@Size(max = 100, message = "O nome deve conter até 100 caracteres!")
 	private String nome;
-	
-	@NotBlank(message = "O atributo Descrição é obrigatório!")
-	@Size(min = 10, max = 500, message = "A Descrição deve conter entre 10 e 500 caracteres!")
-	private String descricao;
-	
-	@OneToMany(mappedBy = "categoria")
-	@JsonIgnoreProperties("categoria")
-	private List<Alimentacao> alimentos;
+
+	private double peso;
+
+	private double altura;
+
+	private double imc;
 
 	public Long getId() {
 		return id;
@@ -49,19 +38,27 @@ public class Categoria {
 		this.nome = nome;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public double getPeso() {
+		return peso;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setPeso(double peso) {
+		this.peso = peso;
 	}
 
-	public List<Alimentacao> getAlimentos() {
-		return alimentos;
+	public double getAltura() {
+		return altura;
 	}
 
-	public void setAlimentos(List<Alimentacao> alimentos) {
-		this.alimentos = alimentos;
+	public void setAltura(double altura) {
+		this.altura = altura;
+	}
+
+	public double getImc() {
+		return imc;
+	}
+
+	public void setImc(double imc) {
+		this.imc = imc;
 	}
 }
