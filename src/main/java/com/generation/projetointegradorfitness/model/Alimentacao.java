@@ -34,18 +34,20 @@ public class Alimentacao {
     private Integer calorias;
 
     @NotNull(message = "A quantidade é obrigatória!")
-    private Integer quantidade;
+    private Double quantidade;
 
     @NotNull(message = "A data de consumo é obrigatória!")
     private LocalDate dataConsumo;
 
-    @ManyToOne
-    @JsonIgnoreProperties("alimentos")
-    private Usuario usuario;
-
+    @NotNull(message = "A categoria é obrigatória!")
     @ManyToOne
     @JsonIgnoreProperties("alimentos")
     private Categoria categoria;
+
+    @NotNull(message = "O usuário é obrigatório!")
+    @ManyToOne
+    @JsonIgnoreProperties("alimentos")
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -79,11 +81,11 @@ public class Alimentacao {
         this.calorias = calorias;
     }
 
-    public Integer getQuantidade() {
+    public Double getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Integer quantidade) {
+    public void setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
     }
 
