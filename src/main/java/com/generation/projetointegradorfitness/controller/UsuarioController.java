@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.generation.projetointegradorfitness.model.Usuario;
 import com.generation.projetointegradorfitness.model.UsuarioLogin;
-import com.generation.projetointegradorfitness.service.AvaliacaoService;
 
 import jakarta.validation.Valid;
 
@@ -28,8 +27,7 @@ public class UsuarioController {
 	//@Autowired
 	//private UsuarioService usuarioService;
 	
-	@Autowired
-	private AvaliacaoService avaliacaoService;
+	
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<Usuario>> getAll(){
@@ -59,7 +57,7 @@ public class UsuarioController {
 	
 	@PostMapping("/imc")
 	public ResponseEntity<Usuario> calcular(@Valid @RequestBody Usuario usuario){
-		Optional<Usuario> usuarioAtualizado = avaliacaoService.imcUsuario(usuario);
+		Optional<Usuario> usuarioAtualizado = usuarioService.imcUsuario(usuario);
 		
 		if(usuarioAtualizado.isPresent()) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(usuarioAtualizado.get());
