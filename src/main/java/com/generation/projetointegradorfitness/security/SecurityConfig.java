@@ -1,22 +1,3 @@
-package com.generation.projetointegradorfitness.security;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import jakarta.servlet.http.HttpServletResponse;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -25,43 +6,42 @@ public class SecurityConfig {
         "/usuarios/logar",
         "/usuarios/cadastrar",
         "/error/**",
-        "/", "/docs", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**"
+        "/",
+        "/swagger-ui/**",
+        "/v3/api-docs/**",
+        "/swagger-resources/**"
     };
 
     @Autowired
     private JwtAuthFilter jwtAuthFilter;
 
     @Bean
-    PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
 
     @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .csrf(csrf -> csrf.disable())
             .cors(cors -> {})
-            
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
             )
-            
-            .exceptionHandling(exceptions -> exceptions
-                    .authenticationEntryPoint((request, response, authException) -> 
-                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, 
-                            "Não autorizado - Token JWT ausente ou inválido"))
+            .exceptionHandling(ex -> ex
+                .authenticationEntryPoint((req, res, ex2) ->
+                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                        "Não autorizado - Token JWT ausente ou inválido"))
             )
-            
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
-    
 }

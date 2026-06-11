@@ -291,7 +291,13 @@ DELETE /alimentos/{id}
 
 # 📝 License
 
-Projeto desenvolvido para fins educacionais durante o curso de Desenvolvimento de Sistemas.
+Este projeto foi desenvolvido para fins educacionais como parte do Projeto Integrador da Generation Brasil.
+
+---
+
+## 📚 Documentação
+
+[Documento do Projeto](https://docs.google.com/document/d/e/2PACX-1vRgYcVGWTPNlH-rF_K200OnHdfjU3vdCDHpKQ1UeQixHcndgsuwvqaauxEWCk5o8oU_j7Vb9hOeQyY5/pub)
 
 ---
 
